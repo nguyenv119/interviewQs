@@ -20,7 +20,6 @@ def main():
 
     print(bfsList(adjListUndirected, 5))
 
-
 def bfsList(graph: dict, start: int) -> dict:
     if graph is None: return None
     if start not in graph: raise Exception("Starting Vertex not in Graph")
