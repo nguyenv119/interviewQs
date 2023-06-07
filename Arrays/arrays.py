@@ -2,17 +2,59 @@ from typing import List
 class Solution:
 
     def test(self):
-        matrix = [[7,2,1],[6,4,2],[6,5,3],[3,2,1]]
-        assert self.matrixSum(matrix) == 15
-
-        matrix = [[1]]
-        assert self.matrixSum(matrix) == 1
-
-        matrix = [[1,8,16,15,12,9,15,11,18,6,16,4,9,4],[3,19,8,17,19,4,9,3,2,10,15,17,3,11],[13,10,19,20,6,17,15,14,16,8,1,17,0,2],[12,20,0,19,15,10,7,10,2,6,18,7,7,4],[17,14,2,2,10,16,15,3,9,17,9,3,17,10],[17,6,19,17,18,9,14,2,19,12,10,18,7,9],[5,6,5,1,19,8,15,2,2,4,4,1,2,17],[12,16,8,16,7,6,18,13,18,8,14,15,20,11],[2,10,19,3,15,18,20,10,6,7,0,8,3,7],[11,5,10,13,1,3,4,7,1,18,20,17,19,2],[0,3,20,6,19,18,3,12,2,11,3,1,19,0],[6,5,3,15,6,1,0,17,13,19,3,8,2,7],[2,20,9,11,13,5,1,16,14,1,19,3,12,6]]
-        assert self.matrixSum(matrix) == 190
+        assert self.subarraySum([1, 1, 1], 2) == 2
+        assert self.subarraySum([1, 2, 3], 3) == 2
+        assert self.subarraySum([1, 6, 3, 3, 10, 2], 13) == 2
+        assert self.subarraySum([3, -1, 1, 1, 1], 0) == 1
 
         print("All Tests Passed Succesfully!")
     
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        if nums is None:
+            return 0
+
+        check = {0: 1}
+        sumSoFar = 0
+        res = 0
+
+        for num in nums:
+
+            sumSoFar += num
+            if (sumSoFar - k) in check: res += check[sumSoFar - k]
+            
+            if sumSoFar not in check: check[sumSoFar] = 1
+            else: check[sumSoFar] += 1
+
+
+        return res
+
+    '''
+        [1, -1, 1, 1, 1], k = 3
+
+        0: 2
+        1: 2
+        2: 1
+        3: 1
+
+        res = 2
+
+        Brute force: O(n^2) time, we go through each index and scan the rest of list to see if sum, and icnrm
+        Better: Instead of finishing 1, then going to 6 and examining [6, 3] or [6, 3, 3] it is the same thing
+        as [1, 6, 3] - [1], and [1, 6, 3, 3] - [1]. So lets just go through the array once, O(n)
+
+        When we go through it once, say k = 13. In the brute force, the equivalent of getting to [3, 10] is
+        the same as in this, where we can see [1, 6, 3, 3, 10] - [1, 6, 3] = 13. "Lets remove [1, 6, 3]", but
+        how do we know to do this? When we sum up to [1, 6, 3] we see that it sums to 10, so we note
+        that we've seen 10 before. So when we are up to [1, 6, 3, 3, 10], we ask "What can we remove to 
+        make this work?", the sum is 23, so 23 - 13 = 10. And we have seen 10 before
+        
+        The approach is to keep count of how many times we a sum can be made, and when keep summing through
+        the O(n) iteration, see if we can remove a portion, that we can find in our hashmap, and then add
+        the number of times we have seen that sum to the answer
+
+        O(n) time, since we iterate through array once, and O(n) space since our hashmap size is n at most
+        since the number of distinct sums across n elements is n
+    '''
 
     def matrixSum(self, nums: List[List[int]]) -> int:
         if nums == [[]]:
@@ -35,7 +77,6 @@ class Solution:
 
         if len(nums[0]) >= 1: score = self.helperMatrixSum(nums, score)
         return score
-    
 
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         if k < 0 or nums == []: return []
