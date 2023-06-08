@@ -1,6 +1,6 @@
 # Definition for a binary tree node.
 from typing import Optional
-
+from collections import deque
 
 class TreeNode:
     def __init__(self, x):
@@ -44,11 +44,46 @@ class Solution:
         return ls[k - 1]
 
     def inOrder(self, root: Optional[TreeNode], ls: List[int]) -> List[int]:
-
         if root.left: self.inOrder(root.left, ls)
         ls.append(root.val)
         if root.right: self.inOrder(root.right, ls)
         return ls
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+
+        '''
+        If its an empty tree, return []
+        Not empty: 
+            - Create a queue, and enter the node
+            - Remove the node, so we have the reference, then for each children (we have ref),
+                add it to the queue. Do it while the queue is not empty
+        
+        [15, 7]
+        Popped: 20
+        res: [[3], [9, 20], [15, 7]
+
+        Theta(n) in space and time, since we iterate through the entire tree, through each
+        element at most once, and create the queue 
+        '''
+
+        if root == []: return []
+        res = []
+        queue = deque()
+        queue.append(root)
+        res.append([root.val])
+
+        while queue:
+            level = []
+            curr = queue.popleft() # O(1)
+            if curr.left: 
+                queue.append(curr.left)
+                level.append(curr.left.val)
+            if curr.right: 
+                queue.append(curr.right)
+                level.append(curr.right.val)
+
+            res.append(level)
+
+        return res
     
     def test(self):
         assert self.lowestCommonAncestor([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5], 2, 8) == 6
