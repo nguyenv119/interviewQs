@@ -2,10 +2,8 @@ from typing import List
 class Solution:
 
     def test(self):
-        assert self.subarraySum([1, 1, 1], 2) == 2
-        assert self.subarraySum([1, 2, 3], 3) == 2
-        assert self.subarraySum([1, 6, 3, 3, 10, 2], 13) == 2
-        assert self.subarraySum([3, -1, 1, 1, 1], 0) == 1
+        assert self.topKFrequent([4,1,-1,2,-1,2,3], 2) == [-1, 2]
+        assert self.topKFrequent([3, 0, 1, 0], 1) == [0]
 
         print("All Tests Passed Succesfully!")
     
@@ -77,27 +75,53 @@ class Solution:
         if len(nums[0]) >= 1: score = self.helperMatrixSum(nums, score)
         return score
 
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        if k < 0 or nums == []: return []
-        if len(nums) == 1: return nums
+    # def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    #     if k < 0 or nums == []: return []
+    #     if len(nums) == 1: return nums
         
+    #     map = dict()
+    #     for num in nums:
+    #         if num not in map: map[num] = 1
+    #         else: map[num] += 1
+
+    #     lisT = [[] for _ in range(len(nums))]
+    #     for key, value in map.items():
+    #         lisT[value - 1].append(key)
+
+    #     result = list()
+    #     i = len(lisT) - 1
+    #     while (k > 0 and i >= 0):
+    #         if lisT[i] != []:
+    #             result.extend(lisT[i])
+    #             k -= len(lisT[i])
+    #         i -= 1
+
+    #     return result
+
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         map = dict()
         for num in nums:
             if num not in map: map[num] = 1
             else: map[num] += 1
 
-        lisT = [[] for _ in range(len(nums))]
-        for key, value in map.items():
-            lisT[value - 1].append(key)
+        res = []
+        for i in range(len(nums)): res.append([])
+        for key in map: res[map[key] - 1].append(key)
 
-        result = list()
-        i = len(lisT) - 1
-        while (k > 0 and i >= 0):
-            if lisT[i] != []:
-                result.extend(lisT[i])
-                k -= len(lisT[i])
+        result = []
+        i = len(res) - 1
+        print(res)
+
+        while i >= 0 and k > 0:
+            # print(i)
+            for num in res[i]:
+                print(num)
+                if num is not None:
+                    result.append(num)
+                    print(result)
+                    k -= 1
             i -= 1
-
+            
         return result
 
         ''' Hashmap array, O(n) Time and O(n) space, where keys are number, values are appearances
