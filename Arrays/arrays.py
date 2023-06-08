@@ -10,25 +10,7 @@ class Solution:
         print("All Tests Passed Succesfully!")
     
     def subarraySum(self, nums: List[int], k: int) -> int:
-        if nums is None:
-            return 0
-
-        check = {0: 1}
-        sumSoFar = 0
-        res = 0
-
-        for num in nums:
-
-            sumSoFar += num
-            if (sumSoFar - k) in check: res += check[sumSoFar - k]
-            
-            if sumSoFar not in check: check[sumSoFar] = 1
-            else: check[sumSoFar] += 1
-
-
-        return res
-
-    '''
+        '''
         [1, -1, 1, 1, 1], k = 3
 
         0: 2
@@ -54,7 +36,24 @@ class Solution:
 
         O(n) time, since we iterate through array once, and O(n) space since our hashmap size is n at most
         since the number of distinct sums across n elements is n
-    '''
+        '''
+        if nums is None:
+            return 0
+
+        check = {0: 1}
+        sumSoFar = 0
+        res = 0
+
+        for num in nums:
+
+            sumSoFar += num
+            if (sumSoFar - k) in check: res += check[sumSoFar - k]
+
+            if sumSoFar not in check: check[sumSoFar] = 1
+            else: check[sumSoFar] += 1
+
+
+        return res
 
     def matrixSum(self, nums: List[List[int]]) -> int:
         if nums == [[]]:
@@ -86,12 +85,10 @@ class Solution:
         for num in nums:
             if num not in map: map[num] = 1
             else: map[num] += 1
-        print(map)
 
         lisT = [[] for _ in range(len(nums))]
         for key, value in map.items():
             lisT[value - 1].append(key)
-        print(lisT)
 
         result = list()
         i = len(lisT) - 1
@@ -101,7 +98,6 @@ class Solution:
                 k -= len(lisT[i])
             i -= 1
 
-        print(result)
         return result
 
         ''' Hashmap array, O(n) Time and O(n) space, where keys are number, values are appearances
