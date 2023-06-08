@@ -48,14 +48,16 @@ class Solution:
         ls.append(root.val)
         if root.right: self.inOrder(root.right, ls)
         return ls
-    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-
+   def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         '''
         If its an empty tree, return []
         Not empty: 
             - Create a queue, and enter the node
             - Remove the node, so we have the reference, then for each children (we have ref),
-                add it to the queue. Do it while the queue is not empty
+                add it to the queue. Do it while the queue is not empty. But, we want each
+                level to be in the same list, so we make a list for each level, and then
+                add the elements into that list, then at the end of the level, append it into
+                the main list, then return at the end
         
         [15, 7]
         Popped: 20
@@ -66,24 +68,30 @@ class Solution:
         '''
 
         if root == []: return []
+
         res = []
         queue = deque()
         queue.append(root)
-        res.append([root.val])
+        if root: res.append([root.val])
 
         while queue:
             level = []
-            curr = queue.popleft() # O(1)
-            if curr.left: 
-                queue.append(curr.left)
-                level.append(curr.left.val)
-            if curr.right: 
-                queue.append(curr.right)
-                level.append(curr.right.val)
+            length = len(queue)
+            for i in range(length):
+                curr = queue.popleft() # O(1)
+                if curr:
+                    if curr.left: 
+                        queue.append(curr.left)
+                        level.append(curr.left.val)
+                    if curr.right: 
+                        queue.append(curr.right)
+                        level.append(curr.right.val)
 
-            res.append(level)
+            if level: res.append(level)
 
         return res
+    
+
     
     def test(self):
         assert self.lowestCommonAncestor([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5], 2, 8) == 6
