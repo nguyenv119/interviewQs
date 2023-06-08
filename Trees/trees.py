@@ -1,4 +1,7 @@
 # Definition for a binary tree node.
+from typing import Optional
+
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -19,6 +22,34 @@ class Solution:
                 curr = curr.left
             else: return curr
 
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+    
+        '''
+        Traverse tree in an in-order way, left to right, smallest to largest, we can sort the 
+        tree into a list, then return the k - 1 index
+
+        Ask in an interview: what if empty list?
+
+        Test Cases:
+            [1, 2, 3, 4], k = 1, return k - 1 index = 0 --> 1
+            [1, 2, 3, 4, 5 ,6], k = 3, return k - 1 index: 2 --> 3
+            [1], k = 1, return k - 1 index: 0 --> 1
+            [], 
+
+        Solution: O(n) time and space, since we traverse through entire tree, n elements to create a
+        list of size n
+        '''
+
+        ls = self.inOrder(root, [])
+        return ls[k - 1]
+
+    def inOrder(self, root: Optional[TreeNode], ls: List[int]) -> List[int]:
+
+        if root.left: self.inOrder(root.left, ls)
+        ls.append(root.val)
+        if root.right: self.inOrder(root.right, ls)
+        return ls
+    
     def test(self):
         assert self.lowestCommonAncestor([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5], 2, 8) == 6
         print("All Tests Passed Succesfully")
