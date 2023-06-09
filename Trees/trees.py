@@ -1,4 +1,5 @@
 # Definition for a binary tree node.
+from ast import List
 from typing import Optional
 from collections import deque
 
@@ -48,7 +49,8 @@ class Solution:
         ls.append(root.val)
         if root.right: self.inOrder(root.right, ls)
         return ls
-   def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+    
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         '''
         If its an empty tree, return []
         Not empty: 
@@ -90,8 +92,6 @@ class Solution:
             if level: res.append(level)
 
         return res
-    
-
     
     def test(self):
         assert self.lowestCommonAncestor([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5], 2, 8) == 6
