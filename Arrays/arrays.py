@@ -148,6 +148,8 @@ class Solution:
     Intuition: Iterate through list, if not appeared, add to set, if its in, means theres dupe, return true
     - duplicate = number appears 2+ times, how we know? keep track of numbers appeared once, 
     True if its appeared again. How we keep track, use DS, which fastest DS? Hashset
+
+    O(n) in time and space, since we iterate through array atmost once, and hashset atmost n elements
     '''
 
 solution = Solution()
