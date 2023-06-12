@@ -1,10 +1,12 @@
+from collections import Counter
+import heapq
 from typing import List
 class Solution:
 
     def test(self):
-        assert self.productExceptSelf([1, 2, 3, 4]) == [24, 12, 8, 6]
-        assert self.productExceptSelf([1, 2, 3, 0]) == [0, 0, 0, 6]
-        assert self.productExceptSelf([0, 2, 3, 4]) == [24, 0, 0, 0]
+        assert self.topKFrequent([1, 1, 1, 2, 2, 3], 2) == [1, 2]
+        assert self.topKFrequent([1, 2, 3], 3) == [1, 2, 3]
+        assert self.topKFrequent([1, 1, 1, 2, 2, 3], 3) == [1, 2, 3]
 
         print("All Tests Passed Succesfully!")
     
@@ -100,30 +102,29 @@ class Solution:
         return score
 
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        map = dict()
-        for num in nums:
-            if num not in map: map[num] = 1
-            else: map[num] += 1
+        # map = dict()
+        # for num in nums:
+        #     if num not in map: map[num] = 1
+        #     else: map[num] += 1
 
-        res = []
-        for i in range(len(nums)): res.append([])
-        for key in map: res[map[key] - 1].append(key)
+        # res = []
+        # for i in range(len(nums)): res.append([])
+        # for key in map: res[map[key] - 1].append(key)
 
-        result = []
-        i = len(res) - 1
-        print(res)
+        # result = []
+        # i = len(res) - 1
+        # print(res)
 
-        while i >= 0 and k > 0:
-            # print(i)
-            for num in res[i]:
-                print(num)
-                if num is not None:
-                    result.append(num)
-                    print(result)
-                    k -= 1
-            i -= 1
+        # while i >= 0 and k > 0:
+        #     for num in res[i]:
+        #         print(num)
+        #         if num is not None:
+        #             result.append(num)
+        #             print(result)
+        #             k -= 1
+        #     i -= 1
             
-        return result
+        # return result
 
         ''' Hashmap array, O(n) Time and O(n) space, where keys are number, values are appearances
             Now have # times found. [3, 1, 2, 2, 3, 3] --> [3: 3, 1: 1, 2: 2]
@@ -131,6 +132,32 @@ class Solution:
             inputs are list, because it can be [1, 2, 3, 4] say. So, [[1], [2], [3], [], [], []], k most, so start
             at end, then go back and add to result list, until we add k most
         '''
+    
+        '''
+        Intuition: 
+        - want most frequent elements, need count of elements, use counter
+        - use maxHeap, so need heap, heapify, heapify what? Heapify dict
+        - convert the variable we countered to a dict
+        - Want k most, so heappop k times and add to result list
+
+        O(n) space since we are making heap and Counter with size n
+        O(nlogn) since at most we are popping n elements from the heap, and have to heapify down n times
+        '''
+
+        count = Counter(nums)
+        heap = list()
+        for num in count:
+            heap.append((-count[num], num))
+
+        heapq.heapify(heap)
+        res = []
+
+        while k > 0:
+            res.append(heapq.heappop(heap)[1])
+            k -= 1
+
+        return res
+
 
     def containsDupe(self, nums: List[int]) -> bool:
         '''
