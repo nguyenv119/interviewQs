@@ -2,9 +2,9 @@ from typing import List
 class Solution:
 
     def test(self):
-        assert self.containsDupe([1, 2, 3, 4]) == False
-        assert self.containsDupe([1, 3, 2, 3, 4]) == True
-        assert self.containsDupe([1, 1, 2, 3, 4, 2, -1, -1]) == True
+        assert self.productExceptSelf([1, 2, 3, 4]) == [24, 12, 8, 6]
+        assert self.productExceptSelf([1, 2, 3, 0]) == [0, 0, 0, 6]
+        assert self.productExceptSelf([0, 2, 3, 4]) == [24, 0, 0, 0]
 
         print("All Tests Passed Succesfully!")
     
@@ -133,6 +133,14 @@ class Solution:
         '''
 
     def containsDupe(self, nums: List[int]) -> bool:
+        '''
+        Idea: 
+        Intuition: Iterate through list, if not appeared, add to set, if its in, means theres dupe, return true
+        - duplicate = number appears 2+ times, how we know? keep track of numbers appeared once, 
+        True if its appeared again. How we keep track, use DS, which fastest DS? Hashset
+
+        O(n) in time and space, since we iterate through array atmost once, and hashset atmost n elements
+        '''
         if nums is None: return False
         contains = False
         check = set()
@@ -142,15 +150,42 @@ class Solution:
             else: return True
 
         return False
-    
-    '''
-    Idea: 
-    Intuition: Iterate through list, if not appeared, add to set, if its in, means theres dupe, return true
-    - duplicate = number appears 2+ times, how we know? keep track of numbers appeared once, 
-    True if its appeared again. How we keep track, use DS, which fastest DS? Hashset
 
-    O(n) in time and space, since we iterate through array atmost once, and hashset atmost n elements
-    '''
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        '''
+        We want the product of the product of the elements before and after, have to keep track
+        we can have 2 arrays, one pass to calculate before, and one to calculate after, then 
+        iterate through array and take product. 
+
+        But this wastes space, so we can do 1 iteration calculating product, then the 2nd iteration
+        we will simulataneously take product of reverse and multiplying it with the existing indices
+
+        [1, 2, 3, 4]
+        pre = 6
+        [1, 1, 2, 6]
+
+        post = 24
+        res[i] = res[i] * post
+        post = post * nums[i]
+        [24, 12, 8, 6]
+
+        O(n) time and space, since we are passing through array 2 times, and result is of size n
+
+        '''
+        if nums is None: return []
+        res = [1] * len(nums)
+
+        pre = 1
+        for i in range(len(nums)):
+            res[i] = pre
+            pre *= nums[i]
+
+        post = 1
+        for i in range(len(nums) - 1, -1, -1):
+            res[i] *= post
+            post *= nums[i]
+        
+        return res
 
 solution = Solution()
 solution.test()
