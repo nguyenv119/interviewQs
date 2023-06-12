@@ -2,8 +2,9 @@ from typing import List
 class Solution:
 
     def test(self):
-        assert self.topKFrequent([4,1,-1,2,-1,2,3], 2) == [-1, 2]
-        assert self.topKFrequent([3, 0, 1, 0], 1) == [0]
+        assert self.containsDupe([1, 2, 3, 4]) == False
+        assert self.containsDupe([1, 3, 2, 3, 4]) == True
+        assert self.containsDupe([1, 1, 2, 3, 4, 2, -1, -1]) == True
 
         print("All Tests Passed Succesfully!")
     
@@ -130,6 +131,24 @@ class Solution:
             inputs are list, because it can be [1, 2, 3, 4] say. So, [[1], [2], [3], [], [], []], k most, so start
             at end, then go back and add to result list, until we add k most
         '''
+
+    def containsDupe(self, nums: List[int]) -> bool:
+        if nums is None: return False
+        contains = False
+        check = set()
+
+        for i in range(len(nums)):
+            if nums[i] not in check: check.add(nums[i])
+            else: return True
+
+        return False
+    
+    '''
+    Idea: 
+    Intuition: Iterate through list, if not appeared, add to set, if its in, means theres dupe, return true
+    - duplicate = number appears 2+ times, how we know? keep track of numbers appeared once, 
+    True if its appeared again. How we keep track, use DS, which fastest DS? Hashset
+    '''
 
 solution = Solution()
 solution.test()
