@@ -23,8 +23,11 @@ class Solution:
 
       Idea: 2 pointers, 1 tracking min value, one going through to subtract = maxProfit
       Intuition: 
-      - we want profit, so should have 2 pointers subtract
-      - we want keep track of maxProfit so far, max - min, want to keep track of min, keep searching for possible new max, if find, change maxProfit, if find new min, update left pointer
+      - we want profit, how? max - min
+      - how max - min, get indices, 2 pointers
+      - how we know its max profit? More than other profits, how? keep local variable
+      - when we get new min, switch it, but guaranteed we can either get more profit from this min, since we already have the local variable
+      - get answer? return max profit
       '''
 
     def subarraySum(self, nums: List[int], k: int) -> int:
