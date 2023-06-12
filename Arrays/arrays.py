@@ -7,6 +7,26 @@ class Solution:
 
         print("All Tests Passed Succesfully!")
     
+    def maxProfit(self, prices: List[int]) -> int:
+      maxProfit, left, right = 0, 0, 1
+      while right < len(prices):
+        if prices[left] < prices[right]:
+          maxProfit = max(prices[right] - prices[left], maxProfit)
+        else: left = right
+        right += 1
+        
+      return maxProfit
+
+      '''
+      O(1) space because no matter size of array, we'll have 2 pointers and 1 local var
+      O(n) time since we traverse array once
+
+      Idea: 2 pointers, 1 tracking min value, one going through to subtract = maxProfit
+      Intuition: 
+      - we want profit, so should have 2 pointers subtract
+      - we want keep track of maxProfit so far, max - min, want to keep track of min, keep searching for possible new max, if find, change maxProfit, if find new min, update left pointer
+      '''
+
     def subarraySum(self, nums: List[int], k: int) -> int:
         '''
         [1, -1, 1, 1, 1], k = 3
@@ -74,29 +94,6 @@ class Solution:
 
         if len(nums[0]) >= 1: score = self.helperMatrixSum(nums, score)
         return score
-
-    # def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-    #     if k < 0 or nums == []: return []
-    #     if len(nums) == 1: return nums
-        
-    #     map = dict()
-    #     for num in nums:
-    #         if num not in map: map[num] = 1
-    #         else: map[num] += 1
-
-    #     lisT = [[] for _ in range(len(nums))]
-    #     for key, value in map.items():
-    #         lisT[value - 1].append(key)
-
-    #     result = list()
-    #     i = len(lisT) - 1
-    #     while (k > 0 and i >= 0):
-    #         if lisT[i] != []:
-    #             result.extend(lisT[i])
-    #             k -= len(lisT[i])
-    #         i -= 1
-
-    #     return result
 
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         map = dict()
