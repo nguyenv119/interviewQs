@@ -158,6 +158,53 @@ class Solution:
 
         return res
 
+    def characterReplacement(self, s: str, k: int) -> int:
+        '''
+        Intuition: need to find substring within the string that when we replace k letters
+        with the same letter gives us the longest substring with the same letter. The letters
+        we dont replace will be the same letter. 
+
+        ABCDEFG.....ZCC, k = 1
+        How do we know ZCC is the answer? Replace Z with C
+        AABABBA, k = 1, replace B with A. Why is AABABB not the answer, because there
+        arent enough characters to replace. 
+
+        How do we know this? Recall we are replacing with the same letter, and the other 
+        chars are also the same letter. Why would this work with k = 3, enough chars
+
+        How do we know if theres enough chars? AAAAAB, k = 1. Ans is 6. 6 - k = 5
+
+        Substring - k = # same chars
+        AAABCCCC, k = 2
+        AAABC vs ABCCCC
+
+        We will switch our left pointer when the substring is no longer valid (AAABC)
+        At this point, right will be at C, increase left by 1
+        
+        - Use sliding window
+        - Go through add chars in hashmap: char -> # occurences
+        - See if len(substring) - k = # maxChars
+        - If not, left += 1
+        - Right always += 1, until right reaches len(s)
+
+        '''
+
+        if s == "": return 0
+        check = dict()
+        m, res, left, right = 0, 0, 0, 0
+
+        while right < len(s):
+            if s[right] not in check: check[s[right]] = 1
+            else: check[s[right]] += 1
+            m = max(m, check[s[right]])
+
+            sub = s[left:right + 1]
+            if len(sub) - k > m: left += 1
+            res = max(res, len(sub))
+
+            right += 1
+
+        return res
 
     def containsDupe(self, nums: List[int]) -> bool:
         '''
