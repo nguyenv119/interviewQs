@@ -4,14 +4,47 @@ from typing import List
 class Solution:
 
     def test(self):
-        assert self.characterReplacement("ABAB", 2) == 4
-        assert self.characterReplacement("ABAB", 1) == 3
-        assert self.characterReplacement("AABABBA", 1) == 4
-        assert self.characterReplacement("ABCDEFGCCZ", 1) == 3
-        assert self.characterReplacement("KO", 2) == 2
-        assert self.characterReplacement("KSIKSIKSI", 4) == 7
+        assert self.checkInclusion("ab", "eidbaooo") == True
+        assert self.checkInclusion("ab", "eidboaoo") == False
+        assert self.checkInclusion("abc", "bcaakdnqwknd") == True
+        assert self.checkInclusion("d", "bcaakdnqwknd") == True
+        assert self.checkInclusion("bcaakdnqwknd", "bcaakdnqwkndz") == True
 
         print("All Tests Passed Succesfully!")
+    
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+
+        lenStr, lenSub = len(s2), len(s1)
+        left, right = 0, lenSub
+
+        while right <= lenStr and left <= lenStr - lenSub + 1:
+            if sorted(s1) == sorted(s2[left:right]): return True
+            else: left += 1
+            right += 1
+
+        return False
+    
+        '''
+        Intuition:
+        --> Asks if s2 contains a variation of s1, rearrange s1 such that it is in s2
+        Brute force, go through each index of char and compare it with s1, O(n^2)
+        
+        For a moment, forget permutation, how do we know if a substring is in a substring
+        Sliding window?
+        abc, aadasabc, compare substring of len(s1), and slide left pointer if no match
+
+        So, now permutation: how do we know if 2 strings are permutations?
+        use sorted(s1) == sorted(s2). If it is, return True.
+
+        At the end, if right pointer reached end, means we havent found permutation, 
+        return False
+
+        O(2n) = O(n), since in the worst case, we would repeat elements we are comparing 
+        at most one repeat, and Omega(n), if the substring is 1 char long
+
+        O(2n) = O(n) since with the same logic as needing to go through twice number 
+        of chars, we use that as storage space too
+        '''
     
     def characterReplacement(self, s: str, k: int) -> int:
 
@@ -57,7 +90,7 @@ class Solution:
         string has all unique characters, but n is atmost 26 characters, so O(26) = O(1)
 
         '''
-        
+
         if s == "": return 0
         check = dict()
         m, res, left, right = 0, 0, 0, 0
