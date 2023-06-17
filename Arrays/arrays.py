@@ -14,16 +14,6 @@ class Solution:
     
     def checkInclusion(self, s1: str, s2: str) -> bool:
 
-        lenStr, lenSub = len(s2), len(s1)
-        left, right = 0, lenSub
-
-        while right <= lenStr and left <= lenStr - lenSub + 1:
-            if sorted(s1) == sorted(s2[left:right]): return True
-            else: left += 1
-            right += 1
-
-        return False
-    
         '''
         Intuition:
         --> Asks if s2 contains a variation of s1, rearrange s1 such that it is in s2
@@ -45,6 +35,33 @@ class Solution:
         O(2n) = O(n) since with the same logic as needing to go through twice number 
         of chars, we use that as storage space too
         '''
+
+        lenStr, lenSub = len(s2), len(s1)
+        left, right = 0, lenSub
+
+        while right <= lenStr and left <= lenStr - lenSub + 1:
+            if sorted(s1) == sorted(s2[left:right]): return True
+            else: left += 1
+            right += 1
+
+        return False
+    
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        '''
+        Intuition: 
+        We want to see if list contains dupes? How? if atleast 1 number appears more than once. How can we see
+        if the number appears more than once, we need to keep a counter of the # apperances of the number.
+        
+        Brute force can be going through each index of the list, counting how many apperances storing it into a global max 
+        variable, and change it if the number of appearnces increases. O(n^2) time, O(1) space
+
+        We could use a Counter, and then iterate through that counter to see if any of the keys are >= 1, O(n) space and O(2n) time
+
+        We know that a set gives us only the unique values, without duplicates. So if there are duplicates, the set will be smaller
+        O(n) space and time
+
+        '''
+        return len(set(nums)) != len(nums)
     
     def characterReplacement(self, s: str, k: int) -> int:
 
