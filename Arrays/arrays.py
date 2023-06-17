@@ -4,14 +4,45 @@ from typing import List
 class Solution:
 
     def test(self):
-        assert self.checkInclusion("ab", "eidbaooo") == True
-        assert self.checkInclusion("ab", "eidboaoo") == False
-        assert self.checkInclusion("abc", "bcaakdnqwknd") == True
-        assert self.checkInclusion("d", "bcaakdnqwknd") == True
-        assert self.checkInclusion("bcaakdnqwknd", "bcaakdnqwkndz") == True
+        assert self.groupAnagrams(["eat","tea","tan","ate","nat","bat"]) == [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]
+        assert self.groupAnagrams(["eat","tan","eat","ate"]) == [["eat", "eat", "ate"], ["tan"]]
+        assert self.groupAnagrams(["eat1","eat2","e1at","a2te"]) == [["eat1", "e1at"], ["eat2", "a2te"]]
+        assert self.groupAnagrams([""]) == [[""]]
 
         print("All Tests Passed Succesfully!")
     
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        map = dict()
+        res = list()
+        index = 0
+
+        for str in strs:
+            word = ''.join(sorted(list(str)))
+            if word not in map: 
+                map[word] = index
+                res.append([])
+                res[index].append(str)
+                index += 1
+            else: res[map[word]].append(str)
+
+        return res
+    
+        '''
+        Hashmap, word -> index
+        List[List[str]] where the indices contain a list 
+        of permutations of the same word. 
+
+        - If the sorted permutation isnt in hashmap, add it, and increment key by 1
+        - If it is, get the index and append it to the result
+
+        O(n) in space for our hashmap, storing n strings
+        O(n) in time since we traverse strs once, and sort each word once
+
+        {"eat": 0, "tan": 1, "bat": 2}
+        [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]
+        index = 3
+        '''
+
     def checkInclusion(self, s1: str, s2: str) -> bool:
 
         '''
