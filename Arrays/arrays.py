@@ -10,6 +10,40 @@ class Solution:
         assert self.groupAnagrams([""]) == [[""]]
 
         print("All Tests Passed Succesfully!")
+
+    def isValid(self, s: str) -> bool:
+        '''
+        We need a way to compare if the 2nd half of the string is the exact
+        opposite with the 1st half. 
+
+        - Use a stack to store the 1st half, and then iteratively pop, and
+        when we pop, compare: 
+        0. If the length is odd, false, can't ever have matching parentheses
+        1. if its "(", see if char is ")" and vice versa
+        2. if not, return false
+        3. if we've reached the end, it all works out, and return True
+
+        O(n) in space since we store half the string, O(n/2) = O(n), n = # chars
+        O(n) in time since we traverse the entire string, where n = # chars
+
+        ()[]{}
+        stack: ((
+
+        '''
+
+        if len(s) % 10 != 0: return False
+        stack = list()
+        for i in range(int(len(s) / 2)): stack.append(s[i])
+        for j in range(int(len(s) / 2), len(s)):
+            if stack[-1] == "(": 
+                if s[j] != ")": return False 
+            elif stack[-1] == "[": 
+                if s[j] != "]": return False 
+            elif stack[-1] == "{": 
+                if s[j] != "}": return False 
+            stack.pop()
+        return True
+    
     
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         map = dict()

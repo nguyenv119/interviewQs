@@ -3,8 +3,6 @@ from typing import List
 class Solution:
 
     check = set()
-    # Intuition: A block of 1's is an island, what's a way to get all of consecutive ones? DFS
-    # Idea: dfs across until all visited once (check if visited), once a block of 1's is finished, increment islands
     def numIslands(self, grid: List[List[str]]) -> int:
         '''
         Recursively call dfs on each element in the grid, if it has not been visited
