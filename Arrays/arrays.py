@@ -13,38 +13,45 @@ class Solution:
 
     def isValid(self, s: str) -> bool:
         '''
-        We need a way to compare if the 2nd half of the string is the exact
-        opposite with the 1st half. 
+        In the case of ()[]{}, we need a way to verify that its valid: that right
+        after the (, the ) is so that we can continue, valid so far. 
 
-        - Use a stack to store the 1st half, and then iteratively pop, and
-        when we pop, compare: 
+
+        - We know that when we see a closing bracket, the most recent open one must 
+        also be an open bracket, in the case of up there, and also
+        ([{}]). 
+        - So we can use a stack to store all the open ones, and when we get to a
+        closed one, we can check if it matches its open counterpart in the stack,
+        then pop and keep going until reach end of string
+
         0. If the length is odd, false, can't ever have matching parentheses
-        1. if its "(", see if char is ")" and vice versa
-        2. if not, return false
-        3. if we've reached the end, it all works out, and return True
+        1. Init stack, and go through string
+        2. If open, add
+        3. If odd, check if top of stack is open counterpart, if not, False
+        4. At the end, when if stack is empty (not stragglers left) return True
 
         O(n) in space since we store half the string, O(n/2) = O(n), n = # chars
         O(n) in time since we traverse the entire string, where n = # chars
 
         ()[]{}
-        stack: ((
+        stack: 
 
         '''
 
-        if len(s) % 10 != 0: return False
+        if len(s) % 2 != 0: return False
         stack = list()
-        for i in range(int(len(s) / 2)): stack.append(s[i])
-        for j in range(int(len(s) / 2), len(s)):
-            if stack[-1] == "(": 
-                if s[j] != ")": return False 
-            elif stack[-1] == "[": 
-                if s[j] != "]": return False 
-            elif stack[-1] == "{": 
-                if s[j] != "}": return False 
-            stack.pop()
-        return True
+        openParen = {"(": ")", "[": "]", "{": "}"}
+        closedParen = {")": "(", "]": "[", "}": "{"}
+
+        for char in s:
+            if char in openParen: stack.append(char)
+            else: 
+                if stack and closedParen[char] == stack[-1]: stack.pop()
+                else: return False
+
+        return False if stack else True
     
-    
+
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         map = dict()
         res = list()
