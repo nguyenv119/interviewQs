@@ -4,12 +4,64 @@ from typing import List
 class Solution:
 
     def test(self):
-        assert self.groupAnagrams(["eat","tea","tan","ate","nat","bat"]) == [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]
-        assert self.groupAnagrams(["eat","tan","eat","ate"]) == [["eat", "eat", "ate"], ["tan"]]
-        assert self.groupAnagrams(["eat1","eat2","e1at","a2te"]) == [["eat1", "e1at"], ["eat2", "a2te"]]
-        assert self.groupAnagrams([""]) == [[""]]
+        # print(self.threeSum([-1,0,1,2,-1,-4]))
+        assert self.threeSum([-1,0,1,2,-1,-4]) == [[-1,-1,2],[-1,0,1]]
+        assert self.threeSum([0, 1, 1]) == []
+        assert self.threeSum([-1, 1, 0]) == [[-1, 0, 1]]
+        assert self.threeSum([0, -1, 1]) == [[-1, 0, 1]]
 
         print("All Tests Passed Succesfully!")
+
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+
+        check = set()
+        res = []
+        nums.sort()
+
+        for i in range(len(nums) - 2):
+            self.helper(i, len(nums) - 1, nums, res, check)
+
+        return res
+    
+    def helper(self, index: int, length: int, nums: List[int], res: List[List[int]], check: set()):
+        l, r = index + 1, length
+        while l < r:
+            
+            sum = nums[l] + nums[r]
+
+            if sum == -1 * nums[index]:
+                if (nums[index], nums[l], nums[r]) not in check: 
+                    res.append([nums[index], nums[l], nums[r]])
+                    check.add((nums[index], nums[l], nums[r]))
+
+                l += 1
+                r -= 1
+
+            elif sum < -1 * nums[index]: l += 1
+            elif sum > -1 * nums[index]: r -= 1
+
+        '''
+        We need 3 numbers, where the same index cant be repeated in a triplet, 
+        that sum to 0. 
+
+        Brute force: go through array, for each iteration check every other element, 
+        and in that iteration, check every other element: O(n^3)
+
+        We can iterate through array, and then we need to see if the other 2 indices
+        sum to negative of the number we are on. To make it easy, we can sort array
+        beforehand, and do if its smaller, left pointer up, vice versa
+
+        [-4,-1,-1,0,1,2]
+        - so -1, we need sum to be 1: -1 and 2, so we stop
+        - 2nd -1, 0 + 2 too big, so move down: 0, 1, stop
+
+        Move until left = right so we get all possible: [-1,-1,0,1,2]
+        To avoid dupes, we can use a set
+
+        Solution is O(n^2) since each element requires we search up to n elements
+        O(n) in space for the triplets
+        '''
+
 
     def isValid(self, s: str) -> bool:
         '''
@@ -50,7 +102,6 @@ class Solution:
                 else: return False
 
         return False if stack else True
-    
 
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         map = dict()
