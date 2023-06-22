@@ -12,33 +12,66 @@ class Solution:
 
         print("All Tests Passed Succesfully!")
 
+    def twoSumII(self, numbers: List[int], target: int) -> List[int]:
+        '''
+        If we didnt need to use constant space, we could use the solution from Two Sum I, with hashmap, Space O(n)
+        But, we should think about pointers if we use O(1) space.
+
+        target = numbers[i] + numbers[j] 
+        Answer is a combination of indices, we know array is sorted, how does that help us as opposed to unsorted
+        Unsorted = look randomly
+        Sorted = is there a way to look at it in a non-random organized pattern. The organized pattern of sorted is we know
+        the max, min...etc
+
+        - Start with 2 pointers, left, right
+        - If their sum is > target, move right back, vice versa if smaller
+        - Do this while left < right, if it is then a solution doesnt exist since we cant have dupe indices as Answer
+
+        O(n) in time since we traverse array once
+        O(1) in space since we don't use auxiliary DS
+        '''
+
+        l, r = 0, len(numbers) - 1
+        res = []
+
+        while l < r:
+            sum = numbers[l] + numbers[r]
+            if sum == target: 
+                res.append(l + 1)
+                res.append(r + 1)
+                break
+            elif sum < target: l += 1
+            elif sum > target: r -= 1
+
+        return res
+
     def threeSum(self, nums: List[int]) -> List[List[int]]:
+
+        def helper(index: int, length: int, nums: List[int], res: List[List[int]], check: set()):
+            l, r = index + 1, length
+            while l < r:
+                
+                sum = nums[l] + nums[r]
+
+                if sum == -1 * nums[index]:
+                    if (nums[index], nums[l], nums[r]) not in check: 
+                        res.append([nums[index], nums[l], nums[r]])
+                        check.add((nums[index], nums[l], nums[r]))
+
+                    l += 1
+                    r -= 1
+
+                elif sum < -1 * nums[index]: l += 1
+                elif sum > -1 * nums[index]: r -= 1
 
         check = set()
         res = []
         nums.sort()
 
         for i in range(len(nums) - 2):
-            self.helper(i, len(nums) - 1, nums, res, check)
+            helper(i, len(nums) - 1, nums, res, check)
 
         return res
-    
-    def helper(self, index: int, length: int, nums: List[int], res: List[List[int]], check: set()):
-        l, r = index + 1, length
-        while l < r:
-            
-            sum = nums[l] + nums[r]
-
-            if sum == -1 * nums[index]:
-                if (nums[index], nums[l], nums[r]) not in check: 
-                    res.append([nums[index], nums[l], nums[r]])
-                    check.add((nums[index], nums[l], nums[r]))
-
-                l += 1
-                r -= 1
-
-            elif sum < -1 * nums[index]: l += 1
-            elif sum > -1 * nums[index]: r -= 1
 
         '''
         We need 3 numbers, where the same index cant be repeated in a triplet, 
@@ -61,7 +94,6 @@ class Solution:
         Solution is O(n^2) since each element requires we search up to n elements
         O(n) in space for the triplets
         '''
-
 
     def isValid(self, s: str) -> bool:
         '''
