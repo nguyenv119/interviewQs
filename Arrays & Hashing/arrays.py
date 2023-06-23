@@ -4,13 +4,64 @@ from typing import List
 class Solution:
 
     def test(self):
-        # print(self.threeSum([-1,0,1,2,-1,-4]))
-        assert self.threeSum([-1,0,1,2,-1,-4]) == [[-1,-1,2],[-1,0,1]]
-        assert self.threeSum([0, 1, 1]) == []
-        assert self.threeSum([-1, 1, 0]) == [[-1, 0, 1]]
-        assert self.threeSum([0, -1, 1]) == [[-1, 0, 1]]
+        assert self.longestConsecutive([100,4,200,1,3,2]) == 4
+        assert self.longestConsecutive([]) == 0
+        assert self.longestConsecutive([1, 2, 3, 4, 5, 6]) == 6
+        assert self.longestConsecutive([-1, -3, 1, 3, 5]) == 1
+        assert self.longestConsecutive([0,3,7,2,5,8,4,6,0,1]) == 9
 
         print("All Tests Passed Succesfully!")
+
+
+    def longestConsecutive(self, nums: List[int]) -> int:
+
+        if nums == []: return 0
+        map = dict()
+
+        for num in nums:
+            if num not in map: map[num] = 0
+        
+        mostConsec = 0
+        for num in nums:
+            currConsec = 1
+            curr = num
+            while (curr + 1) in map:
+                currConsec += 1
+                curr += 1
+
+            mostConsec = max(mostConsec, currConsec)
+        
+        return mostConsec
+
+        '''
+        There can be multiple consecutive sequences, so we just have to choose
+        the highest one. Dupes count as 1
+
+        Brute Force? 
+        - Have a max variable, go thorugh each element and scan rest of array...etc
+        for longest sequence, update max var accordingly and return
+
+        Need a way to get longest consecutive sequence, hashmap?
+        - Iterate through n elements, make hashmap = O(n), number -> ___
+
+        We know it is a consecutive sequence if there exists num +1, +2....etc
+        So we have O(1) to search it in the hashmap
+
+        - After we get number, ask map is there +1? If yes, is there +2? and keep
+        incrementing currentMax, then at the end do globalMax = max(global, local)
+
+        What if you have [1,0,2,3,4,5]. 1st local = 5, then 2nd local = 6
+        Is there a way we can reduce redundancy?
+
+        1. Make hashmap, number -> 0
+        2. Init currConsec, mostConsec = 0, 0
+        3. Go through array, and iterate currConsec as long as there exists conse
+        4. mostConsec = max(currConsec, mostConsec)
+        5. return mostConsec
+
+        O(2n) = O(n) since we traverse n elements to make map, and again for search
+
+        '''
 
     def twoSumII(self, numbers: List[int], target: int) -> List[int]:
         '''
