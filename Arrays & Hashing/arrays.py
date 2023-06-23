@@ -15,21 +15,15 @@ class Solution:
 
     def longestConsecutive(self, nums: List[int]) -> int:
 
-        if nums == []: return 0
-        map = dict()
-
-        for num in nums:
-            if num not in map: map[num] = 0
-        
+        map = set(nums)
         mostConsec = 0
+
         for num in nums:
             currConsec = 1
-            curr = num
-            while (curr + 1) in map:
-                currConsec += 1
-                curr += 1
-
-            mostConsec = max(mostConsec, currConsec)
+            if (num - 1) not in map: 
+                while (num + currConsec) in map:
+                    currConsec += 1
+                mostConsec = max(mostConsec, currConsec)
         
         return mostConsec
 
@@ -37,7 +31,7 @@ class Solution:
         There can be multiple consecutive sequences, so we just have to choose
         the highest one. Dupes count as 1
 
-        Brute Force? 
+        #* Brute Force? 
         - Have a max variable, go thorugh each element and scan rest of array...etc
         for longest sequence, update max var accordingly and return
 
@@ -47,20 +41,21 @@ class Solution:
         We know it is a consecutive sequence if there exists num +1, +2....etc
         So we have O(1) to search it in the hashmap
 
+        #! To avoid redundancy, say checking [1, 2, 3...] where we know [0, 1, 2, 3...] is longer, we know this
+        #! since 0 is the start of the sequence. How do we know something is the start of a sequence? There is no preceding number.
+        #! So, we only need to check if there is a preceding number, else we know that it is not the start of the sequence
+
         - After we get number, ask map is there +1? If yes, is there +2? and keep
         incrementing currentMax, then at the end do globalMax = max(global, local)
 
-        What if you have [1,0,2,3,4,5]. 1st local = 5, then 2nd local = 6
-        Is there a way we can reduce redundancy?
 
-        1. Make hashmap, number -> 0
-        2. Init currConsec, mostConsec = 0, 0
-        3. Go through array, and iterate currConsec as long as there exists conse
-        4. mostConsec = max(currConsec, mostConsec)
-        5. return mostConsec
+        #? 1. Make set, no dupes
+        #? 2. Init currConsec, mostConsec = 0, 0
+        #? 3. Go through array, and iterate currConsec as long as there exists conse
+        #? 4. mostConsec = max(currConsec, mostConsec)
+        #? 5. return mostConsec
 
         O(2n) = O(n) since we traverse n elements to make map, and again for search
-
         '''
 
     def twoSumII(self, numbers: List[int], target: int) -> List[int]:
