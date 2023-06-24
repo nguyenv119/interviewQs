@@ -83,6 +83,25 @@ class Solution:
         self.bfs(grid, rows + 1, columns) # bottom
         self.bfs(grid, rows, columns - 1) # left
 
+    def minCost(self, n: int, cuts: List[int]) -> int:
+        '''
+        Cost = length of stick when we cut
+        The lowest cost will be the combination of cuts with the lowest length stick
+        How do we get the lowest len(stick)?
+
+        Take [1, 2, 3, 4, 5]. Instead of cutting it in sequential order(increasing
+        or decreasing), the fastest way would be to do a cutting similar to the
+        merge sort algorithm. half, half, half...etc
+
+        - We need to find the number closest to the half of the stick when cutting,
+        - Then remove that number
+        - Then we have 2 sub sticks, and repeat
+        '''
+        @cache
+        def dp(i, j, C): return 0 if not C else j - i + min(
+            dp(i, c, C[:k]) + dp(c, j, C[k+1:]) for k, c in enumerate(C)
+        )
+        return dp(0, n, tuple(sorted(cuts)))
 
 Solution = Solution()
 Solution.test()

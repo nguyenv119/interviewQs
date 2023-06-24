@@ -56,6 +56,7 @@ class Solution:
         #? 5. return mostConsec
 
         O(2n) = O(n) since we traverse n elements to make map, and again for search
+        O(n) space for the set
         '''
 
     def twoSumII(self, numbers: List[int], target: int) -> List[int]:
