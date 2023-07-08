@@ -12,7 +12,53 @@ class Solution:
 
         print("All Tests Passed Succesfully!")
 
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        '''
+        Valid sudoku doesnt necesarilly have to contain all numbers in a row/column,
+        just no duplicates!
 
+        We can use a set to erase possiblity of duplicates
+        Brute force: We can check every element in each row, then check in each column if there
+        is no duplicates we continue and add that element in a set. Then theres the prob checking
+        in each 3x3 box
+
+        Can we use 3 sets, one for row, one for column, one for 3x3
+        Maybe for 3x3 hashset, do to represent. Check dupes or invalid each box.
+
+        How can we associate each box to the rows, cols? We know its 3x3, so in box hashset, 
+        1st lines of boxes are 0'th index, and like the rows, they are index 0, 1, 2. How do we
+        get them to be 0? Divide by 3. Same with 3, 4, 5, divide by 3 = 1 index. 
+
+        So how can we check if theres a dupe? 
+        --> Make 3 hashsets for each category
+        --> When we iterate through 9x9 array, if ".", continue with iteration, dont matter
+        --> we can check if board[r][c] exists in the row, column or square. If so, return False
+        --> Else, add and keep iterating. At the end, no false so its valid, return true
+
+        Theta(81) in time since we have to iterate through every element in board, regardless of
+        whether its valid or not to check the element
+
+        Theta(81) in space since we have to make the empty slots for the hashsets
+        '''
+
+        rows = [set() for _ in range(9)]
+        cols = [set() for _ in range(9)]
+        squares = [[set() for _ in range(3)] for _ in range(3)]
+
+        for r in range(len(board)):
+            for c in range(len(board[0])):
+                if board[r][c] == ".": continue
+                elif (board[r][c] in rows[r] 
+                      or board[r][c] in cols[c]
+                      or board[r][c] in squares[r // 3][c // 3]):
+                      return False
+                else:
+                    rows[r].add(board[r][c])
+                    cols[c].add(board[r][c])
+                    squares[r // 3][c // 3].add(board[r][c])
+
+        return True
+    
     def longestConsecutive(self, nums: List[int]) -> int:
 
         map = set(nums)
