@@ -61,5 +61,39 @@ class Solution:
         if len(queue) == 1:
             queue[0].next = None
 
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        '''
+        We want a solution that should reverse the list as we go from head to tail
+        1 -> 2 -> 3 -> 4 -> 5
+
+        1 <- 2 <- 3 <- 4 <- 5
+        How do we point 2 to 1? We need a reference to 2, and set 2.next to 1. But then we also
+        need a reference for 3. So, 3 references: curr, curr.next, and curr.next.next
+
+        When do we stop the process: when curr.next is None
+        So, while curr.next is not None: we set curr.next.next to curr, then move everything forward
+        We should initialize the variables in the beginning, since curr.next isn't null in the loop,
+        the 1 possibility of null, would be curr.next.next:
+
+        Theta(n) in time since we traverse n elements, and pointer swaps are O(1)
+        O(1) space since it is in place     
+
+        '''
+        if head is None: return None
+        curr = head
+        currNext = curr.next
+        # Head of list is now tail, still have ref to original curr.next
+        curr.next = None
+        next2 = currNext.next if currNext is not None else None
+
+        while currNext is not None:
+            # Set next to curr
+            currNext.next = curr
+            # Move forward
+            curr = currNext
+            currNext = next2
+            next2 = next2.next if next2 is not None else None
+
+        return curr
 soln = Solution()
 soln.test()
