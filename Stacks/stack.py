@@ -102,7 +102,7 @@ class MinStack:
         1. Make checking list same size as temperature
         2. Add 1st element and start at the 1th index
         3. Go through list: if number is bigger than top of stack, add distance between indices: i'th index and index of top of stack
-        4. Pop top of stack
+        4. While a stack exists(not empty), pop and add index(i) - top of stack's index to res
 
 
 
@@ -110,18 +110,23 @@ class MinStack:
         Theta(n) in time since we always iterate through the array once, and pop n elements
 
         [73,74,75,71,69,72,76,73]
-        res = [1,1,0,2,1,0,0,0]
-        check = [73_, 74_, 75, 71_, 69_, 72] 
+        res = [1,1,0,0,0,0,0,0]
+        check = [[0, 73]_, [1, 74]_, [2, 75], [3, 71], [4, 69], [5, 72]] 
         '''
-        res = [0] * len(temperatures)
-        stack = []
 
-        for i, temp in enumerate(temperatures):
-            while stack and temp > stack[-1][0]:
-                stackTemp, stackIdx = stack.pop()
-                res[stackIdx] = i - stackIdx
-            stack.append([temp, i])
+        res = [0] * len(temperatures)
+        stack = [] # idx, temp
+
+        for idx, temp in enumerate(temperatures):
+            while stack and temp > stack[-1][1]:
+                stackIdx, stackTemp = stack.pop()
+                res[stackIdx] = idx - stackIdx
+            stack.append([idx, temp])
         return res
+
+        
+
+        
     
     def test(self):
         assert self.dailyTemperatures([73,74,75,71,69,72,76,73]) == [1,1,4,2,1,1,0,0]
