@@ -63,7 +63,6 @@ class Solution:
 
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         '''
-
         We want a solution that should reverse the list as we go from head to tail
         1 -> 2 -> 3 -> 4 -> 5
 
@@ -80,22 +79,15 @@ class Solution:
         O(1) space since it is in place     
 
         '''
-        if head is None: return None
+        prev = None
         curr = head
-        currNext = curr.next
-        # Head of list is now tail, still have ref to original curr.next
-        curr.next = None
-        next2 = currNext.next if currNext is not None else None
+        while curr:
+            next_node = curr.next   # Save current node's next before overwriting its value
+            curr.next = prev        # Reverse direction by pointing previous back at this element
+            prev = curr             # Move both nodes along towards each other
+            curr = next_node       # Set up for next iteration
 
-        while currNext is not None:
-            # Set next to curr
-            currNext.next = curr
-            # Move forward
-            curr = currNext
-            currNext = next2
-            next2 = next2.next if next2 is not None else None
-
-        return curr
+        return prev
     
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         '''
