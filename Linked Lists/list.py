@@ -141,5 +141,37 @@ class Solution:
 
         return head
 
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        '''
+        We want to remove the n'th node from the end of the list, whose size cannot be null
+        If n = 1, return end of list: O(n) - TBD
+        If n = sz, return head of list: Omega(1)
+
+        Raw Approach:
+        - Go through whole list, find length, and take length - n, to then start from root and 
+        move forward, remove that node: (length - n - 1).next = (length - n).next
+
+        If length - n == 0, return head.next: if we remove the 1st element
+
+        Theta(n) since we traverse whole list
+        Theta(1) since it is in place
+        '''
+        
+        curr = head
+        len = 1
+        while curr.next is not None: # Go through list and find length
+            len += 1
+            curr = curr.next
+    
+        steps = len - n
+        if steps == 0: return head.next # Removing 1st element
+
+        curr = head # Set curr back to head, and iterate through steps - 1 times
+        for i in range(steps - 1):
+            curr = curr.next
+        
+        curr.next = curr.next.next # Remove the node from list
+        return head
+    
 soln = Solution()
 soln.test()
