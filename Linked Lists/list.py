@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 # Definition for singly-linked list.
 class ListNode:
@@ -63,6 +63,7 @@ class Solution:
 
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         '''
+
         We want a solution that should reverse the list as we go from head to tail
         1 -> 2 -> 3 -> 4 -> 5
 
@@ -95,5 +96,50 @@ class Solution:
             next2 = next2.next if next2 is not None else None
 
         return curr
+    
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        '''
+        Given 2 lists, sorted. We need to combine them into another list that is sorted
+        O(1) space: rearrange pointers
+        Scenarios: 
+                
+        Approach: 
+        - Make a new list to combine the two. Should start with the smallest head (guaranteed smallest)
+        - We have 2 pointers, iterate through the lists and compare them:
+        a) The smaller goes onto the new list, the tail of the list: tail.next = newAdded
+        - We go until one list has finished, while list1 and list2 is not None
+        - Afterwards, add the remaining elements, just attach it with 1 tail.next = list1/list2
+
+        Theta(1) space since it is in place
+        O(m) where m is the length of the larger list
+        '''
+
+        if list1 is None and list2 is None: return None # Both are null lists
+        if list1 is None: return list2 # 1 of them is None
+        elif list2 is None: return list1
+
+        if list1.val < list2.val: # Compare which head.val is smaller, add to res
+            head = list1
+            list1 = list1.next
+        else:
+            head = list2
+            list2 = list2.next
+        
+        tail = head # We have the ref to the original head, while keeping reference of tail
+        
+        while list1 and list2: # While a list remains
+            if list1.val < list2.val:
+                tail.next = list1
+                list1 = list1.next
+            else:
+                tail.next = list2
+                list2 = list2.next
+            tail = tail.next
+        
+        if list1: tail.next = list1
+        else: tail.next = list2
+
+        return head
+
 soln = Solution()
 soln.test()
