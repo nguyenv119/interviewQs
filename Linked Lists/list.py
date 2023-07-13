@@ -216,6 +216,30 @@ class Solution:
         T: Theta(m) where m is the len(largestList) since we have to traverse through m nodes, n included
         S: Theta(1): in-place algorithm
         '''
-    
+
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        '''
+        Raw Approach: Go through lists adding nodes into a set. If we see that the node exists in the set,
+        return false, eventually it will reach this if there is a cycle. 
+        Else, eventually it will finish, so return true at the end
+
+        T: 
+        - Omega(1) since in the best case, the next node points to the 1st node
+        - O(n) where n is the number of elements in the list
+
+        S: 
+        - Omega(1) since in the best case, loop is in the 1st node pointing to the 1st
+        - O(n) since we need to store n elements if we don't find a loop, or if we do and we've reached
+        the end, and the end node points back somewhere
+
+        '''
+        if head is None: return False
+        added = set()
+        curr = head
+        while curr.next: # Going through ll
+            if curr in added: return True # O(1) search in hashset, check if we've seen it before
+            added.add(curr)
+            curr = curr.next
+        return False
 soln = Solution()
 soln.test()
