@@ -163,5 +163,59 @@ class Solution:
         curr.next = curr.next.next # Remove the node from list
         return head
     
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        res = ListNode(0, None) 
+        head = res # Have ref to head to return
+        while l1 and l2: # While both pointers to both lists arent null
+            sum = l1.val + l2.val + res.val # Add list nodes and result node
+            res.val = sum % 10
+            if sum >= 10: # If greater than 10, add the next node as 1
+                res.next = ListNode(1, None) 
+            elif sum < 10 and (l1.next or l2.next): # May be end of list, so check. If not, add 0 as next
+                res.next = ListNode(0, None)
+            res = res.next # Continue through lists
+            l1 = l1.next
+            l2 = l2.next
+        
+        while l1: # Continue if l1 isnt completed
+            sum = l1.val + res.val
+            res.val = sum % 10
+            if sum >= 10:
+                res.next = ListNode(1, None)
+            elif sum < 10 and l1.next:
+                res.next = ListNode(0, None) 
+            res = res.next
+            l1 = l1.next
+        while l2: # Continue if l2 isnt completed
+            sum = l2.val + res.val
+            res.val = sum % 10
+            if sum >= 10:
+                res.next = ListNode(1, None)
+            elif sum < 10 and l2.next:
+                res.next = ListNode(0, None) 
+            res = res.next
+            l2 = l2.next
+        
+        return head
+    
+        '''
+        We need to add the numbers in 2 in each node of the lists together. The lists arent necesarilly
+        the same length. 
+        - When we add 2 numbers, if there is a carry over, the carry over value (sum / 10) gets added
+        in the next sum, so we need to keep track of that.
+        - We know they are single number digits, so the largest possible sum is 18. 
+
+        1. Make the result list
+        1.5. First, set dummy.val = 0, and our first sum changes dummy
+        2. Go through 2 lists while one hasn't reached the end, and add nodes. Add the sum mod 10
+        (last digit) to the last ListNode
+        3. If there is a carry over, immedientally create a new next ListNode in our result and set 
+        its value to 1
+        4. When loop breaks, have 2 loops going through either list, whichever one is still full
+
+        T: Theta(m) where m is the len(largestList) since we have to traverse through m nodes, n included
+        S: Theta(1): in-place algorithm
+        '''
+    
 soln = Solution()
 soln.test()

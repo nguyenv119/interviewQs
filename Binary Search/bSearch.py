@@ -62,7 +62,7 @@ class Solution:
         Larger: Search the smaller part of the array, end of search becomes middle
 
         T: O(logn), Omega(1)
-        S: O(1)
+        S: Theta(1)
         '''
 
         start, end = 0, len(nums) - 1
@@ -74,7 +74,6 @@ class Solution:
             else: start = mid + 1 # Search for right side of array, excluding mid
         
         return -1
-
 
 soln = Solution()
 soln.test()
