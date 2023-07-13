@@ -2,8 +2,9 @@ from typing import List
 class Solution:
 
     def test(self):
-        
-
+        assert self.search([1, 3, 4, 5, 6, 9, 10], 9) == 5
+        assert self.search([1, 3, 4, 5, 6, 9, 10], 3) == 1
+        assert self.search([1, 3, 4, 5, 6, 9, 10], 2) == -1
         print("All Tests Passed Succesfully!")
     
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
@@ -47,6 +48,32 @@ class Solution:
 
         # Exhausted all possibilities
         return False
+
+    def search(self, nums: List[int], target: int) -> int:
+        '''
+        When we want to search for an element in a sorted list, in O(logn), we can
+        use binary search:
+
+        The reason it is logn, is that we can half our options through each iteration.
+        Start in the middle, and check if it is larger/smaller/same as our target
+
+        Same: we have found it, return index
+        Smaller: Search the larger part of the array, start of search becomes middle
+        Larger: Search the smaller part of the array, end of search becomes middle
+
+        T: O(logn), Omega(1)
+        S: O(1)
+        '''
+
+        start, end = 0, len(nums) - 1
+        while start <= end: 
+            mid = (end + start) // 2
+            if nums[mid] == target: return mid
+            if nums[mid] > target:
+                end = mid - 1 # Search for left side of array, excluding mid
+            else: start = mid + 1 # Search for right side of array, excluding mid
+        
+        return -1
 
 
 soln = Solution()

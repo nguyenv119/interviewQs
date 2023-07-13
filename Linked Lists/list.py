@@ -52,9 +52,7 @@ class Solution:
         # Go through queue and modify pointers
         while len(queue) > 1:  
             rear = queue.popleft()
-        
             top = queue.pop()
-
             top.next = rear  # First should connect to last
             rear.next = queue[-1] if len(queue) != 0 else None  
         
