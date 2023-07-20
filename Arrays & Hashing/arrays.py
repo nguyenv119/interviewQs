@@ -4,13 +4,49 @@ from typing import List
 class Solution:
 
     def test(self):
-        assert self.longestConsecutive([100,4,200,1,3,2]) == 4
-        assert self.longestConsecutive([]) == 0
-        assert self.longestConsecutive([1, 2, 3, 4, 5, 6]) == 6
-        assert self.longestConsecutive([-1, -3, 1, 3, 5]) == 1
-        assert self.longestConsecutive([0,3,7,2,5,8,4,6,0,1]) == 9
+        assert self.isAnagram("abcdefg", "gfedcba")
+        assert self.isAnagram("", "")
+        assert self.isAnagram("apples", "aspple")
 
         print("All Tests Passed Succesfully!")
+
+    def isAnagram(self, s: str, t: str) -> bool:
+
+        '''
+        We know that an anagram is 2 words with their character mixed. What do they
+        have in common? How can we tell that 2 words are anagrams. Same length, sure,
+        but they have the same number of chars. 
+
+        Is there a way to determine if the number of chars of 
+        each char is the same. We need a way to count the number of each character,
+        then at the end compare the 2
+
+        1. Use a Counter, Theta(2n) = Theta(n) time, where n is the # characters in each string. 
+        Since we go through the string of n characters and count how many time each 
+        char appears, do it twice, 2n. Then, at the end compare them.
+        2. Use a hashmap ourselves
+
+        Both Theta(2n) space
+        '''
+
+        #? Approach 1
+        print(Counter(s))
+        print(Counter(t))
+        return Counter(s) == Counter(t)
+    
+        #? Approach 2
+        mapS = dict()
+        mapT = dict()
+
+        for char in s:
+            if char not in mapS: mapS[char] = 1
+            else: mapS[char] += 1
+        
+        for char in t:
+            if char not in mapT: mapT[char] = 1
+            else: mapT[char] += 1
+        
+        return mapS == mapT
 
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         '''

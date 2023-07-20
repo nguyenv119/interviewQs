@@ -9,14 +9,18 @@ class ListNode:
 from collections import deque
 class Solution:
 
-    def test(self):
-        n5 = ListNode(5, None)
-        n4 = ListNode(4, n5)
-        n3 = ListNode(3, n4)
-        n2 = ListNode(2, n3)
-        n1 = ListNode(1, n2)
+    def rec(self, n):
+        if n == 1: return 1
+        else: return self.rec(n - 1) + self.rec(n - 1)
 
-        assert self.reorderList([n1]) == []
+
+    def test(self):
+        print(f"1: {self.rec(1)}") 
+        print(f"2: {self.rec(2)}") 
+        print(f"3: {self.rec(3)}") 
+        print(f"4: {self.rec(4)}") 
+        print(f"5: {self.rec(5)}") 
+        
 
         print("All Tests Passed Succesfully!")
     
@@ -241,5 +245,6 @@ class Solution:
             added.add(curr)
             curr = curr.next
         return False
+
 soln = Solution()
 soln.test()
