@@ -345,7 +345,16 @@ class Solution:
         O(n) space and time
 
         '''
+        #? Approach 1: use set to account for duplicates
         return len(set(nums)) != len(nums)
+    
+        #? Approach 2: use hashmap
+
+        map = dict()
+        for i in range(len(nums)):
+            if nums[i] in map: return True
+            else: map[nums[i]] = 1
+        return False
     
     def characterReplacement(self, s: str, k: int) -> int:
 
