@@ -49,7 +49,7 @@ class Solution:
         # Exhausted all possibilities
         return False
 
-    def search(self, nums: List[int], target: int) -> int:
+    def bsearch(self, nums: List[int], target: int) -> int:
         '''
         When we want to search for an element in a sorted list, in O(logn), we can
         use binary search:
@@ -74,6 +74,74 @@ class Solution:
             else: start = mid + 1 # Search for right side of array, excluding mid
         
         return -1
+
+    def searchRotated(self, nums: List[int], target: int) -> int:
+        '''
+        There is an integer array nums sorted in ascending order (with distinct values).
+
+        Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
+
+        Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+
+        You must write an algorithm with O(log n) runtime complexity.
+
+        Example 1:
+
+        Input: nums = [4,5,6,7,0,1,2], target = 0
+        Output: 4
+        Example 2:
+
+        Input: nums = [4,5,6,7,0,1,2], target = 3
+        Output: -1
+        Example 3:
+
+        Input: nums = [1], target = 0
+        Output: -1
+        
+        Binary Search
+        Divide based on middle value relation to a certain thing - what is it? Know ascending
+        Left and right part, pivot is the largest element
+
+        Basecase: if nums[middle] == target
+        Either left pr right: 
+
+        [4,5,6,7,0,1,2]
+        [1,4,5,8,9,-1,0]
+        [8,9,10,2,3,4,5,6,7]
+
+        
+
+        '''
+
+    def findMin(self, nums: List[int]) -> int:
+        '''
+        Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
+
+        [4,5,6,7,0,1,2] if it was rotated 4 times.
+        [0,1,2,4,5,6,7] if it was rotated 7 times.
+        Notice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].
+
+        Given the sorted rotated array nums of unique elements, return the minimum element of this array.
+
+        You must write an algorithm that runs in O(log n) time.
+
+        Example 1:
+
+        Input: nums = [3,4,5,1,2]
+        Output: 1
+        Explanation: The original array was [1,2,3,4,5] rotated 3 times.
+        Example 2:
+
+        Input: nums = [4,5,6,7,0,1,2]
+        Output: 0
+        Explanation: The original array was [0,1,2,4,5,6,7] and it was rotated 4 times.
+        Example 3:
+
+        Input: nums = [11,13,15,17]
+        Output: 11
+        Explanation: The original array was [11,13,15,17] and it was rotated 4 times. 
+        '''
+
 
 soln = Solution()
 soln.test()

@@ -53,6 +53,9 @@ class MinStack:
 
         stack = list()
         res = list()
+        ls = deque()
+        map = dict()
+        ls.popleft()
 
         def helper(openAdded: int, closeAdded: int):
             if openAdded == closeAdded == n:
