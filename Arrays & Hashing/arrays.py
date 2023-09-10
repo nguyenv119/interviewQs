@@ -625,5 +625,47 @@ class Solution:
         
         return res
 
+    def maxProduct(self, nums: List[int]) -> List[int]:
+        '''
+        Given an integer array nums, find a subarray that has the largest product, and return the product.
+
+        Example 1:
+
+        Input: nums = [2,3,-2,4]
+        Output: 6
+        Explanation: [2,3] has the largest product 6.
+        Example 2:
+
+        Input: nums = [-2,0,-1]
+        Output: 0
+        Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+
+        [4, -1, 3, 40, -5, 6, 3]
+        Negative values can be used to get the maximum value in the next element, so we need to keep track of it. For instance, when we get to -3, we discard 1 and -2
+        because -3 is the min product, so we take that min product and use that to compute the next elements. Say -3 was positive, first, we dont know the number of negatives
+        in the array when traversing. So we need to keep track of the max and min as we go on to make sure that when negatives do come up, we can use the min and multiply that
+
+
+        Theta(n) in time since we traverse once     
+        Theta(1) space since no extra storage
+        
+        1. make max and min val initial value
+        2. go through each element, calculate max and min - how? increment it *= to the max and min each time, do min() and max() with curr and the *=
+        doesnt work because we may skip values, how do we keep track of contiguous subarrays
+
+        Max will always be positive, largest pos product, and min will be the same but negative.
+        If we want the largest product, and smallest, every time we see a positive: multiply by neg for min and pos for max
+        When we see a negative, multiply by neg for max and pos for min
+
+        curr = -
+        min = -12
+        max = 4
+        '''
+
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+
 solution = Solution()
 solution.test()
