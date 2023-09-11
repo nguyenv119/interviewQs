@@ -96,7 +96,7 @@ class Solution:
         return True
     
     def longestConsecutive(self, nums: List[int]) -> int:
-
+        # hbday
         map = set(nums)
         mostConsec = 0
 
