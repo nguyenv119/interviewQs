@@ -6,10 +6,11 @@ Hey there! 🧋
 
 My goal this summer was to feel very comfortable with Medium style questions — so I did a few a day. 😄
 
+## Solutions and Intuition
 
-## Patterns I Found
+Here are the collection of problems I found, whose solution can be found in the respective folders including the intuition I used
+before solving the problem. 
 
-Here are the collection of problems I found, whose solution can be found in the respective folders 
+## Update
 
-<i> Working on this 😅 </i>
-
+I also implemented the Java version to remind myself of how to use Java, to help me with my TA job in the Spring of 2024.
