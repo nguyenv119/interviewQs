@@ -1,6 +1,6 @@
 from collections import Counter
 import heapq
-from typing import List
+from typing import List, Tuple
 class Solution:
 
     def test(self):
@@ -662,10 +662,11 @@ class Solution:
         max = 4
         '''
 
-    def rotate(self, matrix: List[List[int]]) -> None:
-        """
-        Do not return anything, modify matrix in-place instead.
-        """
+    def inversePairs(self, nums: List[int]) -> int:
+        '''
+        
+        '''
+
 
 solution = Solution()
 solution.test()
