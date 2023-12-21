@@ -662,10 +662,59 @@ class Solution:
         max = 4
         '''
 
-    def inversePairs(self, nums: List[int]) -> int:
-        '''
-        
-        '''
+    def reversePairs(self, nums: List[int]) -> int:
+        return self.mergeSort(nums, 0, len(nums) - 1)
+
+        def mergeSort(self, nums: List[int], low: int, high: int) -> int:
+            if low >= high: return 0
+            count = 0
+
+            mid = (low + high) // 2
+            count += self.mergeSort(nums, low, mid)
+            count += self.mergeSort(nums, mid + 1, high)
+            count += self.merge(nums, low, mid, high)
+            return count
+
+        def merge(self, nums: List[int], low: int, mid: int, high: int) -> int:
+            count = 0
+            leftSize = mid - low + 1
+            rightSize = high - mid
+            leftAux = [nums[low + i] for i in range(leftSize)]
+            rightAux = [nums[mid + 1 + j] for j in range(rightSize)]
+
+            # Count reverse pairs
+            i = j = 0
+            while i < leftSize:
+                while j < rightSize and leftAux[i] > 2 * rightAux[j]:
+                    count += leftSize - i
+                    j += 1
+                i += 1
+
+            # Reset pointers for merge
+            i = j = 0
+            index = low
+
+            # Merge two subarrays
+            while i < leftSize and j < rightSize:
+                if leftAux[i] <= rightAux[j]:
+                    nums[index] = leftAux[i]
+                    i += 1
+                else:
+                    nums[index] = rightAux[j]
+                    j += 1
+                index += 1
+
+            # Add remaining elements
+            while i < leftSize:
+                nums[index] = leftAux[i]
+                i += 1
+                index += 1
+            while j < rightSize:
+                nums[index] = rightAux[j]
+                j += 1
+                index += 1
+
+            return count
 
 
 solution = Solution()
