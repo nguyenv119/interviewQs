@@ -624,45 +624,28 @@ class Solution:
             post *= nums[i]
         
         return res
-
-    def maxProduct(self, nums: List[int]) -> List[int]:
-        '''
-        Given an integer array nums, find a subarray that has the largest product, and return the product.
-
-        Example 1:
-
-        Input: nums = [2,3,-2,4]
-        Output: 6
-        Explanation: [2,3] has the largest product 6.
-        Example 2:
-
-        Input: nums = [-2,0,-1]
-        Output: 0
-        Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
-
-        [4, -1, 3, 40, -5, 6, 3]
-        Negative values can be used to get the maximum value in the next element, so we need to keep track of it. For instance, when we get to -3, we discard 1 and -2
-        because -3 is the min product, so we take that min product and use that to compute the next elements. Say -3 was positive, first, we dont know the number of negatives
-        in the array when traversing. So we need to keep track of the max and min as we go on to make sure that when negatives do come up, we can use the min and multiply that
-
-
-        Theta(n) in time since we traverse once     
-        Theta(1) space since no extra storage
         
-        1. make max and min val initial value
-        2. go through each element, calculate max and min - how? increment it *= to the max and min each time, do min() and max() with curr and the *=
-        doesnt work because we may skip values, how do we keep track of contiguous subarrays
-
-        Max will always be positive, largest pos product, and min will be the same but negative.
-        If we want the largest product, and smallest, every time we see a positive: multiply by neg for min and pos for max
-        When we see a negative, multiply by neg for max and pos for min
-
-        curr = -
-        min = -12
-        max = 4
-        '''
-
     def reversePairs(self, nums: List[int]) -> int:
+        '''
+        Intuition: seeing O(nlogn), and given extra space of one array, immediantely think of
+        Mergesort - now how can we use MS to know where the reversePairs are? It should be
+        in the divide conquer aspect of it..
+
+        [1,3,2,3,1] -> [1,2,3,3,1] when sorting the last 2, how do we know theres rev pair?
+        When we sort it, we are comparing, make a little switch in the middle to check
+        if revPair, increment count. But we need to increment count so that it accounts for
+        elements after it, or else we lose it....eg - [3,4,5,1], when we see that {1,3} is
+        revPair, we have to account for 4 and 5 too
+
+        Since Div and Conquer, we can increment the count every time we mergeSort and merge
+
+        but problem: [1,2,3,1,3], if we just use normal MS, when we sort the 2nd "1", we will
+        compare it with only 2 and that is not a revPair, and then miss 3. So, we have to 
+        go through the auxiliary arrays twice: once to check all 
+
+        Still O(nlogn) since the extra steps still fit within the bounds of O(n) of the comparisons in the
+        merge function
+        '''
         return self.mergeSort(nums, 0, len(nums) - 1)
 
         def mergeSort(self, nums: List[int], low: int, high: int) -> int:
@@ -682,7 +665,8 @@ class Solution:
             leftAux = [nums[low + i] for i in range(leftSize)]
             rightAux = [nums[mid + 1 + j] for j in range(rightSize)]
 
-            # Count reverse pairs
+            # Count reverse pairs: we have to do it seperately, as we would miss some if 
+            # we merged it altogether at once: [1,3,4,1,3], the second "1" would miss "3"
             i = j = 0
             while i < leftSize:
                 while j < rightSize and leftAux[i] > 2 * rightAux[j]:
@@ -715,7 +699,6 @@ class Solution:
                 index += 1
 
             return count
-
 
 solution = Solution()
 solution.test()
