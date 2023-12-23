@@ -1,7 +1,5 @@
 class arrays {
-    /**
-    Main Method for the Arrays class
-     */
+
     public static void main(String[] args) {
         int[] nums1 = {4, 3, 1, 7, 6};
         System.out.println(arrays.reversePair(nums1) + "\n");
