@@ -1,3 +1,4 @@
+import java.util.*;
 class arrays {
 
     public static void main(String[] args) {
@@ -80,5 +81,37 @@ class arrays {
         while (j < RSize) nums[index++] = R[j++];
 
         return count;
+    }
+
+    private static boolean containsPermutation(int[] nums, String s1, String s2) {
+        /**
+         * s1 is contained in s2: 
+         * if s1 > s2, then return false right away
+         * if s1 is none, then it definitely is contained
+         * 
+         * We are asking if s2 contains an anagram of s1, need to make isAnagram helper
+         * dog....abcgoddc, go through s1.length() iterations would be (n-c)clogc
+         * 
+         * We can do the anagrams more efficietly by using a hashmap with the capacity of 
+         * 26 to account for each character. For each char, we can either remove or add
+         * the character, and then just compare the hashmaps/arrays
+         */
+        if (s1.length() > s2.length()) return false;
+        return true;
+    }
+
+    private static boolean isAnagram(String s1, String s2) {
+        HashMap<Character, Integer> map1 = new HashMap<>(26);
+        HashMap<Character, Integer> map2 = new HashMap<>(26);
+        
+        for (int i = 0; i < 26; i++) {
+            map1[i] = 0;
+            map2[i] = 0;
+        }
+        int charA = (int) 'a';
+        for (int i = 0; i < s1.length(); i++) {
+            int idx = (int) s1.charAt(i) - charA;
+
+        }
     }
 }
