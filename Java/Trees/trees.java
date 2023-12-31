@@ -101,4 +101,20 @@ class trees {
 
         return 1 + maxHeight;
     }
+
+    /**
+     * isSameTree recursive
+     */
+    public boolean isSameTree1(TreeNode p, TreeNode q) {
+        if (p == null && q == null) return true;
+        if (p == null || q == null) return false;
+        return (p.val == q.val) && isSameTree1(p.left, q.left) && isSameTree1(p.right, q.right);
+    }
+
+    /**
+     * isSameTree iterative
+     */
+    // public boolean isSameTree2(TreeNode p, TreeNode q) {
+
+    // }
 }
