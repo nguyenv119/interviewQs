@@ -14,6 +14,26 @@ class trees {
     }
 
     /**
+     * lowest common ancestor
+     */
+    TreeNode LCA = null;
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        hasPorQ(root, p, q);
+        return LCA;
+    }
+
+    public boolean hasPorQ(TreeNode curr, TreeNode p, TreeNode q) {
+        if (curr == null) return false;
+        boolean leftHas = hasPorQ(curr.left, p, q);
+        boolean rightHas = hasPorQ(curr.right, p, q);
+
+        if ((curr.val == p.val || curr.val == q.val) || (leftHas && rightHas)) {
+            LCA = curr;
+        }
+        return (curr.val == p.val || curr.val == q.val) || (leftHas || rightHas);
+    }
+
+    /**
      * isBalanced
      */
     boolean balanced = true;
