@@ -14,6 +14,30 @@ class trees {
     }
 
     /**
+     * maximum tree path
+     */
+    int maxPath = -1000;
+    public int maxPathSum(TreeNode root) {
+        if (root == null) return 0;
+        getSums(root);
+        return maxPath;
+    }
+
+    public int getSums(TreeNode root) {
+        if (root == null) return 0;
+        int maxPathLeft = getSums(root.left);
+        int maxPathRight = getSums(root.right);
+
+        int currMaxPath = Math.max(root.val + maxPathLeft + maxPathRight, root.val);
+        currMaxPath = Math.max(root.val + maxPathRight, currMaxPath);
+        currMaxPath = Math.max(root.val + maxPathLeft, currMaxPath);
+
+        maxPath = Math.max(maxPath, currMaxPath);
+
+        return Math.max(root.val, Math.max(maxPathLeft + root.val, maxPathRight + root.val));
+    }
+
+    /**
      * lowest common ancestor
      */
     TreeNode LCA = null;
