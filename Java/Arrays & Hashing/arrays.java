@@ -99,19 +99,4 @@ class arrays {
         if (s1.length() > s2.length()) return false;
         return true;
     }
-
-    private static boolean isAnagram(String s1, String s2) {
-        HashMap<Character, Integer> map1 = new HashMap<>(26);
-        HashMap<Character, Integer> map2 = new HashMap<>(26);
-        
-        for (int i = 0; i < 26; i++) {
-            map1[i] = 0;
-            map2[i] = 0;
-        }
-        int charA = (int) 'a';
-        for (int i = 0; i < s1.length(); i++) {
-            int idx = (int) s1.charAt(i) - charA;
-
-        }
-    }
 }

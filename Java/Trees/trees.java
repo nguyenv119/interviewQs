@@ -1,4 +1,5 @@
 package DSA.Java.Trees;
+import DSA.Java.Stacks.Stack;
  
 class trees {
     public static void main(String[] args) {
@@ -114,7 +115,12 @@ class trees {
     /**
      * isSameTree iterative
      */
-    // public boolean isSameTree2(TreeNode p, TreeNode q) {
-
-    // }
+    public boolean isSameTree2(TreeNode p, TreeNode q) {
+        /**
+         * Initialize Stack that takes in tuples/pairs of TreeNodes. The idea is that we want to keep our own call stack of TreeNodes (DFS PreOrder) or Queue (BFS Level Order)
+         * We do this because we know recursively, it is (p.val == q.val) AND isSameTree(p.left, q.left) AND isSameTree(p.right, q.right). The latter two would go onto the call stack
+         * so that we go in a DFS traversal in regards to which nodes we visit. Naturally, then we should append the lefts onto the stack then the right, those two
+         */
+        return false;
+    }
 }
