@@ -5,6 +5,42 @@ public class dp {
     }
 
     /**
+     * coinChange
+     */
+    public int coinChange(int[] coins, int amount) {
+        /**
+        1. We want the minimum number of coins needed to sum to a certain amount from our stash of coins
+
+        2. numCoins(amount) = 1 + min(numCoins(amount - coin) for coin in coins)
+
+        3. BC is when negative, means there is no amount, just let it be infinite. 1 + min(numCoins(-1)) = 1 - 1
+        when numCoins(0) return 0. If at the end is 0, return -1
+
+        DP. We need a way to store things so that we have accounted for numCoins(amount) before. Just start from 1 to amount, 
+        increment and calculate every time then return dp[amount]
+        */
+        int[] dp = new int[amount + 1];
+
+        for (int i = 1; i <= amount; i++) {
+            int minSoFar = Integer.MAX_VALUE;
+            for (int coin : coins) {
+                int dpValue;
+
+                if (i - coin < 0 || dp[i - coin] == Integer.MAX_VALUE) {
+                    dpValue = Integer.MAX_VALUE;
+                } else {
+                    dpValue = 1 + dp[i - coin];
+                }
+
+                minSoFar = Math.min(minSoFar, dpValue);
+            }
+            dp[i] = minSoFar;
+        }
+        if (dp[amount] == Integer.MAX_VALUE) return -1;
+        return dp[amount];
+    }
+
+    /**
      * climbStairs
      */
     public int climbStairs(int n) {
