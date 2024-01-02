@@ -5,6 +5,31 @@ public class dp {
     }
 
     /**
+     * combinationSumIV
+     */
+    public int combinationSum4(int[] nums, int target) {
+        /**
+        1. numCombs(target) want to find number of ways get to target with given nums
+        2. numCombs(target) = sum of numCombs(target - num) for num in nums
+        3. BC: numCombs(a - a) = numCombs(0) = 1. Also, numCombs(<0) = 0
+        4. DP: get rid of redundancy if weve seen numCombs before by dp array, go from 1 to target
+
+        [0, 1, 2, 4, 7]
+         */
+        int[] dp = new int[target + 1];
+
+        for (int i = 1; i < target + 1; i++) {
+            int numWaysIndividual = 0;
+            for (int num: nums) {
+                if (i - num > 0) numWaysIndividual += dp[i - num];
+                else if (i - num == 0) numWaysIndividual++;
+            }
+            dp[i] = numWaysIndividual;
+        }
+        return dp[target];
+    }
+
+    /**
      * coinChange
      */
     public int coinChange(int[] coins, int amount) {
