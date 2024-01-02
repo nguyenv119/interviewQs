@@ -5,6 +5,37 @@ public class dp {
     }
 
     /**
+     * UniquePaths
+     */
+    public int uniquePaths(int m, int n) {
+    /**
+    1. Want waysTo(m - 1, n - 1) is the number of ways we can move to the m - 1 and n - 1 grid
+    2. waysTo(m - 1, n - 1) = waysTo(one up) + waysTo(one left)
+    3. BC: When we are out of the grid: waysTo(a, b) = 0
+    4. DP: We want to store the # ways where we have gotten to already, use dp matrix? Use 2 for loops
+     */
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0) dp[0][0] = 1;
+                else {
+                    int up;
+                    int left;
+
+                    if (i - 1 < 0) up = 0;
+                    else up = dp[i - 1][j];
+
+                    if (j - 1 < 0) left = 0;
+                    else left = dp[i][j - 1];
+
+                    dp[i][j] = up + left;
+                }
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    /**
      * combinationSumIV
      */
     public int combinationSum4(int[] nums, int target) {
