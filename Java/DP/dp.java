@@ -5,6 +5,24 @@ public class dp {
     }
 
     /**
+     * MaxProfit
+     */
+    public int maxProfit(int[] prices) {
+        /**
+        1. On the ith day, either we sold(gain into profit) or bought(minus from profit) 
+        2. 2 states: have stock(brought state then just sold, keep from prev day) or not have stock(sold state before then buy, didnt buy). Do max of each
+        3. On day 1, could have brought stock, but coudlnt have sold stock
+         */
+        int keptStock = Integer.MIN_VALUE; /** When we end day 0 with a stock, but impossible so dont account for this */
+        int soldStock = 0; /** When we end day 0 selling stock */
+        for (int i = 1; i < prices.length + 1; i++) {
+            keptStock = Math.max(keptStock, soldStock - prices[i - 1]); /** Eg. keptStock after 1st day would have profit -7 */
+            soldStock = Math.max(soldStock, keptStock + prices[i - 1]);
+        }
+        return Math.max(keptStock, soldStock);
+    }
+
+    /**
      * longestCommonSubsq
      */
     public int longestCommonSubsequence(String text1, String text2) {
