@@ -5,6 +5,29 @@ public class dp {
     }
 
     /**
+     * longestCommonSubsq
+     */
+    public int longestCommonSubsequence(String text1, String text2) {
+        /**
+        1. We want to find LCS(s1, s2): abcde and acebd is 3 since ace > bd in length
+        2. LCS(acebd, abcde) = 1 + LCS(cebd, bcde) since "a" is the same_frame_extended; When not the same starting: LCS(cebd, bcde), we WTS if "c" in "cde" and "b" in "ebd" = max(LCS(cebd, cde), LCS(ebd, bcde))
+        3. BC: when one of them runs out of chars, return 0: LCS(abc, "") = 0. Also, like before, LCS(a, a) return 1 + the RestoreAction
+        4. DP: We see that LCS(s1, s2) depending on starting char, depends on max(after, after) or LCS(after). So, somehow use matrix and start with after, the end of the texts
+        */
+        int[][] dp = new int[text1.length() + 1][text2.length() + 1]; /** Each index represents the length of each char */
+        for (int i = text1.length() - 1; i >= 0; i--) {
+            for (int j = text2.length() - 1; j >= 0; j--) {
+                if (text1.charAt(i) == text2.charAt(j)) {
+                    dp[i][j] = 1 + dp[i + 1][j + 1]; /** Takes care of basecase because of def. 0 Java array value */
+                } else {
+                    dp[i][j] = Math.max(dp[i + 1][j], dp[i][j + 1]);
+                }
+            }
+        }
+        return dp[0][0];
+    }
+
+    /**
      * UniquePaths
      */
     public int uniquePaths(int m, int n) {
