@@ -1,6 +1,4 @@
 package DSA.Java.Trees;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.*;
  
 class trees {
@@ -32,6 +30,31 @@ class trees {
         res.add(root.val);
     }
 
+    public List<Integer> postorderTraversalIterative(TreeNode root) {
+        Stack<TreeNode> s = new Stack<>();
+        Stack<Boolean> seenBefore = new Stack<>();
+
+        s.add(root);
+        seenBefore.add(false);
+
+        while (!s.isEmpty()) {
+            TreeNode curr = s.pop();
+            boolean hasSeen = seenBefore.pop();
+
+            if (curr != null && !hasSeen) {
+                seenBefore.add(true);
+                s.add(curr);
+                seenBefore.add(false);
+                s.add(curr.right);
+                seenBefore.add(false);
+                s.add(curr.left);
+            } else if (hasSeen) {
+                res.add(curr.val);
+            }
+        }
+        return res;
+    }
+
     /**
      * inOrder
      */
@@ -45,6 +68,31 @@ class trees {
         inOrder(root.left);
         res.add(root.val);
         inOrder(root.right);
+    }
+
+    public List<Integer> inorderTraversalIterative(TreeNode root) {
+        Stack<TreeNode> s = new Stack<>();
+        Stack<Boolean> seenBefore = new Stack<>();
+
+        s.add(root);
+        seenBefore.add(false);
+    
+        while (!s.isEmpty()) {
+            TreeNode curr = s.pop();
+            boolean hasSeen = seenBefore.pop();
+
+            if (curr != null && !hasSeen) {
+                seenBefore.add(false);
+                s.add(curr.right);
+                seenBefore.add(true);
+                s.add(curr);
+                seenBefore.add(false);
+                s.add(curr.left);
+            } else if (hasSeen) {
+                res.add(curr.val);
+            }
+        }
+        return res;
     }
 
     /**
