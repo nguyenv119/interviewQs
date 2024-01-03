@@ -28,10 +28,12 @@ public class Stack<T> {
         } else throw new EmptyStackException();
     }
 
-    public void pop() {
+    public T pop() {
         if (!this.isEmpty()) {
+            T res = (T) this.data[this.topIdx];
             this.size--;
             this.topIdx--;
+            return res;
         } else throw new EmptyStackException();
     }
 

@@ -1,5 +1,7 @@
 package DSA.Java.Trees;
-import DSA.Java.Stacks.Stack;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.*;
  
 class trees {
     public static void main(String[] args) {
@@ -12,6 +14,68 @@ class trees {
 
         trees t = new trees();
         System.out.println(t.diameterOfBinaryTree(root));
+    }
+
+    /**
+     * postOrder
+     */
+    public List<Integer> res = new ArrayList<>();
+    public List<Integer> postorderTraversal(TreeNode root) {
+        postOrder(root);
+        return res;
+    }
+
+    public void postOrder(TreeNode root) {
+        if (root == null) return;
+        postOrder(root.left);
+        postOrder(root.right);
+        res.add(root.val);
+    }
+
+    /**
+     * inOrder
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        inOrder(root);
+        return res;
+    }
+    
+    public void inOrder(TreeNode root) {
+        if (root == null) return;
+        inOrder(root.left);
+        res.add(root.val);
+        inOrder(root.right);
+    }
+
+    /**
+     * preOrder
+     */
+    public List<Integer> preorderTraversal(TreeNode root) {
+        preOrder(root);
+        return res;
+    }
+
+    public void preOrder(TreeNode root) {
+        if (root == null) return;
+        res.add(root.val);
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+
+    public List<Integer> preorderTraversalIterative(TreeNode root) {
+        Stack<TreeNode> s = new Stack<>();
+        s.add(root);
+
+        while (!s.isEmpty()) {
+            TreeNode curr = s.pop();
+            if (curr != null) {
+                res.add(curr.val);
+                s.add(curr.right);
+                s.add(curr.left);
+            }
+        }
+
+        return res;
     }
 
     /**
