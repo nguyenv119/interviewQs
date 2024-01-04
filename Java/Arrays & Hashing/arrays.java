@@ -9,7 +9,53 @@ class arrays {
         int[] nums3 = {2, 4, 3, 5, 1};
         System.out.println(arrays.reversePair(nums3) + "\n");
     }
+
+    /**
+     * threeSum
+     */
+    public List<List<Integer>> threeSum(int[] nums) {
+        /**
+        1. Sort then go through each num in nums until we reach positive, apply 2 sum problem for rest of elements
+        2. Be careful that if consecutive elements are equal, we dont need to check, skip. Also, in the 2sum stage we do this skipping Toolkit
     
+        O(nlogn + n^2)
+        Omega(nlogn)
+    
+        [-4,-1,-1,0,1,2]
+         */
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < nums.length && nums[i] <= 0; i++) {
+            if (i == 0 || (i > 0 && nums[i] != nums[i - 1])) {
+                twoSum(nums, i, res);
+            }
+        }
+        return res;
+    }
+
+     /**
+     * twoSum
+     */
+    public void twoSum(int[] nums, int i, List<List<Integer>> res) {
+        /**
+        Want to find all possible a,b such that -nums[i] = a + b
+        Go through list and add elements to hashmap if havent seen. If have seen, 
+         */
+        HashSet<Integer> seen = new HashSet<>();
+        for (int j = i + 1; j < nums.length; j++) {
+            if (seen.contains(-nums[i] - nums[j])) {
+                res.add(Arrays.asList(nums[i], nums[j], -nums[i] - nums[j]));
+                while (j + 1 < nums.length && nums[j] == nums[j + 1]) {
+                    j++;
+                }
+            }
+            seen.add(nums[j]);
+        }
+    }
+    
+    /**
+     * reversePair
+     */
     private static int reversePair(int[] nums) {
         /**
         Intuition: seeing O(nlogn), and given extra space of one array, immediantely think of
@@ -33,6 +79,9 @@ class arrays {
         return arrays.mergeSort(nums, 0, nums.length - 1);
     }
 
+    /**
+     * mSort
+     */
     private static int mergeSort(int[] nums, int low, int high) {
         if (low >= high) return 0;
 
@@ -81,22 +130,5 @@ class arrays {
         while (j < RSize) nums[index++] = R[j++];
 
         return count;
-    }
-
-    private static boolean containsPermutation(int[] nums, String s1, String s2) {
-        /**
-         * s1 is contained in s2: 
-         * if s1 > s2, then return false right away
-         * if s1 is none, then it definitely is contained
-         * 
-         * We are asking if s2 contains an anagram of s1, need to make isAnagram helper
-         * dog....abcgoddc, go through s1.length() iterations would be (n-c)clogc
-         * 
-         * We can do the anagrams more efficietly by using a hashmap with the capacity of 
-         * 26 to account for each character. For each char, we can either remove or add
-         * the character, and then just compare the hashmaps/arrays
-         */
-        if (s1.length() > s2.length()) return false;
-        return true;
     }
 }
