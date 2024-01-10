@@ -2,12 +2,8 @@ import java.util.*;
 class arrays {
 
     public static void main(String[] args) {
-        int[] nums1 = {4, 3, 1, 7, 6};
-        System.out.println(arrays.reversePair(nums1) + "\n");
-        int[] nums2 = {1, 3, 2, 3, 1};
-        System.out.println(arrays.reversePair(nums2) + "\n");
-        int[] nums3 = {2, 4, 3, 5, 1};
-        System.out.println(arrays.reversePair(nums3) + "\n");
+        int s = Integer.MAX_VALUE;
+        System.out.println(s);
     }
 
     /**
