@@ -188,7 +188,7 @@ class trees {
     public boolean isBalanced(TreeNode root) {
         /** balanced if abs(lH - rH) <= 1, return this and left and right. But need to get lH and rH before this */
         if (root == null) return true;
-        getHeight(root); /** In calculating height of root, we have height of all others, no need to call again */
+        getHei2 ght(root); /** In calculating height of root, we have height of all others, no need to call again */
         return balanced;
     }
 
